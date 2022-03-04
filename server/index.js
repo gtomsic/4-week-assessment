@@ -1,25 +1,29 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
+const colors = require('colors');
+
+const {
+  getCompliments,
+  addCompliments,
+  deleteCompliment,
+  getAllCompliments,
+  getSingleCompliment,
+  updateCompliment,
+} = require('./controlers');
 
 const app = express();
-
 
 app.use(cors());
 
 app.use(express.json()); // When we want to be able to accept JSON.
 
-app.get("/api/compliment", (req, res) => {
-  const compliments = ["Gee, you're a smart cookie!",
-					 "Cool shirt!",
-					 "Your Javascript skills are stellar.",
-  ];
+app.get('/api/compliments', getAllCompliments);
+app.get('/api/compliment', getCompliments);
+app.put('/api/compliment', updateCompliment);
+app.get('/api/compliment/:id', getSingleCompliment);
+app.post('/api/compliment', addCompliments);
+app.delete('/api/compliment/:id', deleteCompliment);
 
-  // choose random compliment
-  let randomIndex = Math.floor(Math.random() * compliments.length);
-  let randomCompliment = compliments[randomIndex];
-
-  res.status(200).send(randomCompliment);
-  
-});
-
-app.listen(4000, () => console.log("Server running on 4000"));
+app.listen(4000, () =>
+  console.log('Server running on http://localhost:4000'.yellow.bold)
+);
